@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+{% block title %}About - Pollen Classification System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h3 class="card-title mb-0">
+                    <i class="fas fa-info-circle me-2"></i>
+                    About Pollen Classification System
+                </h3>
+            </div>
+            <div class="card-body">
+                <h4>Overview</h4>
+                <p>
+                    The Pollen Classification System is an advanced AI-powered tool designed to identify 
+                    Brazilian Savannah (Cerrado) pollen species from microscopy images. This system uses 
+                    deep learning techniques to provide accurate and reliable pollen identification for 
+                    research and educational purposes.
+                </p>
+
+                <h4>Technology</h4>
+                <p>
+                    Our classification system is built using a Convolutional Neural Network (CNN) trained 
+                    on a comprehensive dataset of expert-labeled pollen images. The model architecture 
+                    includes multiple convolutional layers optimized for pattern recognition in 
+                    microscopic pollen structures.
+                </p>
+
+                <h5>Model Architecture:</h5>
+                <ul>
+                    <li>4 Convolutional blocks with increasing filter sizes (16, 32, 64, 128)</li>
+                    <li>MaxPooling layers for feature reduction</li>
+                    <li>Dropout layers to prevent overfitting</li>
+                    <li>Dense layers for final classification</li>
+                    <li>Softmax activation for probability distribution</li>
+                </ul>
+
+                <h4>Dataset</h4>
+                <p>
+                    The model is trained on the Brazilian Savannah Pollen Dataset, which contains 
+                    high-quality microscopy images of pollen grains from various plant species 
+                    native to the Cerrado biome. Each image has been expertly labeled by palynology 
+                    professionals.
+                </p>
+
+                {% if class_names %}
+                <h5>Supported Species ({{ class_names|length }} classes):</h5>
+                <div class="row">
+                    {% for class_name in class_names %}
+                    <div class="col-md-4 col-sm-6 mb-2">
+                        <span class="badge bg-light text-dark border">{{ class_name.title() }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <h4>Performance</h4>
+                <p>
+                    The model has been trained and validated using standard machine learning practices:
+                </p>
+                <ul>
+                    <li><strong>Training Set:</strong> 70% of the dataset</li>
+                    <li><strong>Validation Set:</strong> 10% of the dataset</li>
+                    <li><strong>Test Set:</strong> 20% of the dataset</li>
+                    <li><strong>Image Preprocessing:</strong> Resized to 128x128 pixels, normalized</li>
+                    <li><strong>Data Augmentation:</strong> Applied to improve model generalization</li>
+                </ul>
+
+                <h4>Use Cases</h4>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="card border-primary">
+                            <div class="card-body">
+                                <h6 class="card-title">
+                                    <i class="fas fa-graduation-cap text-primary me-2"></i>
+                                    Education
+                                </h6>
+                                <p class="card-text small">
+                                    Teaching tool for botany and palynology students to learn 
+                                    pollen identification techniques.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card border-success">
+                            <div class="card-body">
+                                <h6 class="card-title">
+                                    <i class="fas fa-flask text-success me-2"></i>
+                                    Research
+                                </h6>
+                                <p class="card-text small">
+                                    Rapid screening tool for researchers studying Brazilian 
+                                    Savannah vegetation and paleoenvironments.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Limitations</h4>
+                <div class="alert alert-warning" role="alert">
+                    <h6 class="alert-heading">Important Considerations:</h6>
+                    <ul class="mb-0">
+                        <li>Model is specifically trained for Brazilian Savannah species</li>
+                        <li>Best results with clear, well-focused microscopy images</li>
+                        <li>Confidence scores should be considered when interpreting results</li>
+                        <li>Not suitable for diagnostic purposes without expert verification</li>
+                        <li>Performance may vary with image quality and specimen condition</li>
+                    </ul>
+                </div>
+
+                <h4>Future Developments</h4>
+                <p>
+                    We are continuously working to improve the system with:
+                </p>
+                <ul>
+                    <li>Expanded dataset with more species and geographical regions</li>
+                    <li>Enhanced model architectures for better accuracy</li>
+                    <li>Integration with additional morphological features</li>
+                    <li>Mobile app development for field use</li>
+                </ul>
+
+                <h4>Contact</h4>
+                <p>
+                    For questions, feedback, or collaboration opportunities, please feel free to reach out.
+                    This project is part of ongoing research in computational palynology and AI applications 
+                    in botanical sciences.
+                </p>
+            </div>
+        </div>
+
+        <!-- Technical Specifications -->
+        <div class="card shadow mt-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-cogs me-2"></i>
+                    Technical Specifications
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Framework & Libraries:</h6>
+                        <ul class="list-unstyled">
+                            <li><i class="fab fa-python me-2"></i>Python 3.8+</li>
+                            <li><i class="fas fa-brain me-2"></i>TensorFlow 2.x</li>
+                            <li><i class="fas fa-flask me-2"></i>Flask Web Framework</li>
+                            <li><i class="fas fa-chart-bar me-2"></i>OpenCV & NumPy</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>System Requirements:</h6>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-memory me-2"></i>4GB+ RAM</li>
+                            <li><i class="fas fa-microchip me-2"></i>Multi-core CPU</li>
+                            <li><i class="fas fa-hdd me-2"></i>2GB+ Storage</li>
+                            <li><i class="fas fa-wifi me-2"></i>Internet Connection</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

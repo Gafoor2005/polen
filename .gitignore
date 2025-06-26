@@ -1,0 +1,59 @@
+# Virtual environments
+.venv/
+venv/
+application/venv/
+application/.venv/
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Large dataset files (keep structure but not images)
+pollen_data/*.jpg
+pollen_data/*.jpeg
+pollen_data/*.png
+pollen_data/*.bmp
+pollen_data/*.tiff
+
+# Model files (too large for git)
+*.h5
+*.keras
+final_pollen_classifier_model.*
+best_pollen_model.*
+pollen_classifier_*.h5
+
+# Processed data files
+processed_data/
+models/
+*.npy
+*.npz
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+tmp/
+temp/
+.cache/
+
+# Flask uploads
+application/static/uploads/*
+!application/static/uploads/.gitkeep
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Environment files
+.env
+.env.local

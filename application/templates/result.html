@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+
+{% block title %}Classification Results - Pollen Classification{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h3 class="card-title mb-0">
+                    <i class="fas fa-microscope me-2"></i>
+                    Classification Results
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <!-- Image Display -->
+                    <div class="col-md-6">
+                        <h5 class="mb-3">Analyzed Image</h5>
+                        <div class="text-center">
+                            <img src="data:image/jpeg;base64,{{ image_data }}" 
+                                 class="img-fluid rounded border shadow-sm" 
+                                 alt="Uploaded pollen image"
+                                 style="max-height: 400px;">
+                        </div>
+                    </div>
+
+                    <!-- Results -->
+                    <div class="col-md-6">
+                        <h5 class="mb-3">Classification Results</h5>
+                        
+                        <!-- Prediction Card -->
+                        <div class="card border-success mb-4">
+                            <div class="card-header bg-success text-white">
+                                <h6 class="mb-0">
+                                    <i class="fas fa-brain me-2"></i>
+                                    AI Prediction
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <h3 class="text-success mb-3">
+                                        <i class="fas fa-seedling me-2"></i>
+                                        {{ predicted_class.title() }}
+                                    </h3>
+                                    
+                                    <!-- Confidence Score -->
+                                    <div class="mb-3">
+                                        <label class="form-label">Confidence Score</label>
+                                        <div class="progress mb-2" style="height: 25px;">
+                                            {% set confidence_class = 'bg-success' if confidence >= 80 else 'bg-warning' if confidence >= 60 else 'bg-danger' %}
+                                            <div class="progress-bar {{ confidence_class }}" 
+                                                 role="progressbar" 
+                                                 style="width: {{ confidence }}%"
+                                                 aria-valuenow="{{ confidence }}" 
+                                                 aria-valuemin="0" 
+                                                 aria-valuemax="100">
+                                                {{ "%.1f"|format(confidence) }}%
+                                            </div>
+                                        </div>
+                                        {% if confidence >= 80 %}
+                                            <small class="text-success">
+                                                <i class="fas fa-check-circle me-1"></i>
+                                                High confidence prediction
+                                            </small>
+                                        {% elif confidence >= 60 %}
+                                            <small class="text-warning">
+                                                <i class="fas fa-exclamation-triangle me-1"></i>
+                                                Moderate confidence prediction
+                                            </small>
+                                        {% else %}
+                                            <small class="text-danger">
+                                                <i class="fas fa-exclamation-circle me-1"></i>
+                                                Low confidence prediction
+                                            </small>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Species Information -->
+                        <div class="card border-info">
+                            <div class="card-header bg-info text-white">
+                                <h6 class="mb-0">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    Species Information
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <dl class="row mb-0">
+                                    <dt class="col-sm-4">Scientific Name:</dt>
+                                    <dd class="col-sm-8">{{ predicted_class.title() }}</dd>
+                                    
+                                    <dt class="col-sm-4">Family:</dt>
+                                    <dd class="col-sm-8">
+                                        {% if predicted_class == 'arecaceae' %}
+                                            Arecaceae (Palm family)
+                                        {% elif predicted_class == 'poaceae' %}
+                                            Poaceae (Grass family)
+                                        {% elif predicted_class == 'rubiaceae' %}
+                                            Rubiaceae (Coffee family)
+                                        {% elif predicted_class == 'melastomataceae' %}
+                                            Melastomataceae (Melastome family)
+                                        {% else %}
+                                            {{ predicted_class.title() }} family
+                                        {% endif %}
+                                    </dd>
+                                    
+                                    <dt class="col-sm-4">Habitat:</dt>
+                                    <dd class="col-sm-8">Brazilian Savannah (Cerrado)</dd>
+                                    
+                                    <dt class="col-sm-4">Type:</dt>
+                                    <dd class="col-sm-8">Pollen grain microscopy</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="row mt-4">
+                    <div class="col-12 text-center">
+                        <a href="{{ url_for('upload_page') }}" class="btn btn-success btn-lg me-3">
+                            <i class="fas fa-upload me-2"></i>
+                            Classify Another Image
+                        </a>
+                        <button onclick="window.print()" class="btn btn-outline-secondary btn-lg">
+                            <i class="fas fa-print me-2"></i>
+                            Print Results
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Disclaimer -->
+                <div class="alert alert-warning mt-4" role="alert">
+                    <h6 class="alert-heading">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Important Note
+                    </h6>
+                    This AI-powered classification is for research and educational purposes. For scientific applications, 
+                    please verify results with expert palynologists. The model is trained on Brazilian Savannah pollen 
+                    species and may not be accurate for other geographical regions.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Download Results Modal -->
+<div class="modal fade" id="downloadModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Download Results</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Choose format to download your classification results:</p>
+                <div class="d-grid gap-2">
+                    <button class="btn btn-outline-primary" onclick="downloadPDF()">
+                        <i class="fas fa-file-pdf me-2"></i>PDF Report
+                    </button>
+                    <button class="btn btn-outline-success" onclick="downloadJSON()">
+                        <i class="fas fa-file-code me-2"></i>JSON Data
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function downloadPDF() {
+    // Simple print to PDF functionality
+    window.print();
+}
+
+function downloadJSON() {
+    const results = {
+        predicted_class: "{{ predicted_class }}",
+        confidence: {{ confidence }},
+        timestamp: new Date().toISOString(),
+        model: "Brazilian Savannah Pollen Classifier"
+    };
+    
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(results, null, 2));
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", "pollen_classification_results.json");
+    document.body.appendChild(downloadAnchorNode);
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+}
+</script>
+{% endblock %}

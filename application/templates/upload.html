@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Image - Pollen Classification{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h3 class="card-title mb-0">
+                    <i class="fas fa-upload me-2"></i>
+                    Upload Pollen Image for Classification
+                </h3>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('predict') }}" method="post" enctype="multipart/form-data" id="uploadForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="file" class="form-label">Select Pollen Image</label>
+                                <input type="file" class="form-control" id="file" name="file" accept="image/*" required>
+                                <div class="form-text">
+                                    Supported formats: JPG, PNG, JPEG, BMP, TIFF (Max size: 16MB)
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-success btn-lg w-100" id="submitBtn">
+                                    <i class="fas fa-brain me-2"></i>
+                                    Classify Pollen
+                                </button>
+                            </div>
+
+                            <!-- Instructions -->
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h6 class="card-title">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        Image Guidelines
+                                    </h6>
+                                    <ul class="mb-0 small">
+                                        <li>Use clear, well-focused microscopy images</li>
+                                        <li>Ensure good contrast and lighting</li>
+                                        <li>Center the pollen grain in the image</li>
+                                        <li>Avoid images with multiple overlapping grains</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <!-- Image Preview -->
+                            <div class="mb-3">
+                                <label class="form-label">Image Preview</label>
+                                <div id="imagePreview" class="border rounded p-3 text-center bg-light" style="min-height: 200px;">
+                                    <i class="fas fa-image fa-3x text-muted mb-3"></i>
+                                    <p class="text-muted">No image selected</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Loading indicator -->
+        <div id="loadingIndicator" class="text-center mt-4" style="display: none;">
+            <div class="spinner-border text-success" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Analyzing image... Please wait</p>
+        </div>
+
+        <!-- Sample Images Section -->
+        <div class="mt-5">
+            <h4 class="mb-3">
+                <i class="fas fa-images me-2"></i>
+                Sample Pollen Types
+            </h4>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="sample-placeholder bg-success text-white rounded mb-2" style="height: 100px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-seedling fa-2x"></i>
+                            </div>
+                            <h6 class="card-title">Arecaceae</h6>
+                            <p class="card-text small text-muted">Palm family pollen</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="sample-placeholder bg-primary text-white rounded mb-2" style="height: 100px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-leaf fa-2x"></i>
+                            </div>
+                            <h6 class="card-title">Cecropia</h6>
+                            <p class="card-text small text-muted">Trumpet tree pollen</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="sample-placeholder bg-info text-white rounded mb-2" style="height: 100px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-tree fa-2x"></i>
+                            </div>
+                            <h6 class="card-title">Poaceae</h6>
+                            <p class="card-text small text-muted">Grass family pollen</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('file').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    const preview = document.getElementById('imagePreview');
+    
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.innerHTML = `
+                <img src="${e.target.result}" class="img-fluid rounded" style="max-height: 200px;" alt="Preview">
+                <p class="text-muted mt-2 mb-0">${file.name}</p>
+            `;
+        };
+        reader.readAsDataURL(file);
+    } else {
+        preview.innerHTML = `
+            <i class="fas fa-image fa-3x text-muted mb-3"></i>
+            <p class="text-muted">No image selected</p>
+        `;
+    }
+});
+
+document.getElementById('uploadForm').addEventListener('submit', function() {
+    document.getElementById('submitBtn').disabled = true;
+    document.getElementById('loadingIndicator').style.display = 'block';
+});
+</script>
+{% endblock %}

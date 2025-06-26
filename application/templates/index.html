@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Pollen Classification System{% endblock %}
+
+{% block content %}
+<div class="hero-section bg-gradient text-white text-center py-5 mb-5 rounded">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-3">
+            <i class="fas fa-seedling me-3"></i>
+            Pollen Classification System
+        </h1>
+        <p class="lead mb-4">
+            Advanced AI-powered identification of Brazilian Savannah pollen species
+        </p>
+        <a href="{{ url_for('upload_page') }}" class="btn btn-light btn-lg">
+            <i class="fas fa-upload me-2"></i>
+            Start Classification
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="row g-4">
+            <!-- Feature 1 -->
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="feature-icon bg-success text-white rounded-circle mx-auto mb-3">
+                            <i class="fas fa-microscope"></i>
+                        </div>
+                        <h5 class="card-title">Accurate Classification</h5>
+                        <p class="card-text">
+                            Deep learning model trained on expert-labeled Brazilian Savannah pollen dataset
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="feature-icon bg-primary text-white rounded-circle mx-auto mb-3">
+                            <i class="fas fa-upload"></i>
+                        </div>
+                        <h5 class="card-title">Easy Upload</h5>
+                        <p class="card-text">
+                            Simply upload your pollen microscopy image and get instant classification results
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="feature-icon bg-info text-white rounded-circle mx-auto mb-3">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h5 class="card-title">Confidence Score</h5>
+                        <p class="card-text">
+                            Get prediction confidence scores to assess the reliability of classifications
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- How it works -->
+        <div class="mt-5">
+            <h2 class="text-center mb-4">How It Works</h2>
+            <div class="row g-4">
+                <div class="col-md-3 text-center">
+                    <div class="step-number bg-success text-white rounded-circle mx-auto mb-3">1</div>
+                    <h6>Upload Image</h6>
+                    <p class="small text-muted">Upload your pollen microscopy image</p>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="step-number bg-success text-white rounded-circle mx-auto mb-3">2</div>
+                    <h6>AI Processing</h6>
+                    <p class="small text-muted">Our CNN model analyzes the image</p>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="step-number bg-success text-white rounded-circle mx-auto mb-3">3</div>
+                    <h6>Classification</h6>
+                    <p class="small text-muted">Get species identification</p>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="step-number bg-success text-white rounded-circle mx-auto mb-3">4</div>
+                    <h6>Results</h6>
+                    <p class="small text-muted">View prediction with confidence score</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to action -->
+        <div class="text-center mt-5">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h4 class="card-title">Ready to classify your pollen sample?</h4>
+                    <p class="card-text">Upload your microscopy image and get instant AI-powered identification</p>
+                    <a href="{{ url_for('upload_page') }}" class="btn btn-success btn-lg">
+                        <i class="fas fa-camera me-2"></i>
+                        Upload Image
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
